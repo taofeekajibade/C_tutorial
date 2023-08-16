@@ -1,8 +1,8 @@
-#TUTORIAL ON C PROGRAMMING#
+# TUTORIAL ON C PROGRAMMING#
 
 [Reach me via twitter](https://www.twitter.com/taofeekajibade)
 
-##A documentation of my self-taught lessons on C#
+## A documentation of my self-taught lessons on C
 
 
 *Here, I want to keep records of all tutorials attempted on C programming*
@@ -15,7 +15,7 @@
 4. The fourth lesson
 
 
-###The main is the most important function in C
+### The main is the most important function in C
 
 ```
 int main(void)
