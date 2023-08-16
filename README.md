@@ -1,8 +1,8 @@
-# TUTORIAL ON C PROGRAMMING#
-
-[Reach me via twitter](https://www.twitter.com/taofeekajibade)
+# TUTORIAL ON C PROGRAMMING
 
 ## A documentation of my self-taught lessons on C
+
+### [Reach me via Twitter](https://www.twitter.com/taofeekajibade)
 
 
 *Here, I want to keep records of all tutorials attempted on C programming*
@@ -23,4 +23,9 @@ int main(void)
 	/* some codes here */
 
 	return (0);
-} 
+}
+
+
+|     Row 1	|     Row 2	|     Row 3	|
+| --------------| --------------| --------------|
+| Content 1	| Content 2	| Content 3	|
