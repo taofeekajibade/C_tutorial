@@ -1,1 +1,1 @@
-# Tutorial on singly list link
+# Tutorial on singly linked list
