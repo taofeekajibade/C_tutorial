@@ -5,35 +5,33 @@ int main(void)
 	char *usercmd = NULL;
 	char *token;
 	size_t bufsize = 0;
+	ssize_t line_read = 0;
 
 	while (1)
 	{
 		print_string("(myshell) >>> "); /*prints prompt */
-		getline(&usercmd, &bufsize, stdin);
-		if (usercmd == NULL)
+		line_read = getline(&usercmd, &bufsize, stdin);
+		if (line_read == -1)
 		{
 			perror("Error reading input...");
+			free(usercmd);
 			return (-1);
 		}
 
-		token = strtok(usercmd, " ");
-		while (token != NULL)
-		{
-			print_string(token);
-			print_string("\n");
-			token = strtok(NULL, " ");
-		}
-		if (strcmp(token, "exit") == 0) /* handles exit */
+		token = strtok(usercmd, " \n");
+		if (token != NULL && strcmp(token, "exit") == 0)
 		{
 			print_string("Goodbye...");
+			free(usercmd);
 			break;
 		}
-		if (strcmp(token, "cd") == 0)
+		else if (token != NULL && strcmp(token, "cd") == 0) /* handles exit */
 		{
 			token = strtok(NULL, " \n");
 			if (token == NULL)
 			{
 				print_string("Usage: cd <directory>");
+				print_string("\n");
 			}
 			else
 			{
@@ -45,10 +43,17 @@ int main(void)
 		}
 		else
 		{
-			print_string(token);
+			while (token != NULL)
+			{
+				print_string(token);
+				print_string("\n");
+				token = strtok(NULL, " \n");
+			}
 		}
 		free(usercmd);
+		usercmd = NULL;
 		bufsize = 0;
 	}
 	return (0);
 }
+
