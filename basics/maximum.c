@@ -7,18 +7,17 @@
  * @arr: argument 1
  */
 
-int str_len(char arr[])
+int str_len(char *arr)
 {
-	int i = 0;
+	int arr_len = 0;
 
-	while(arr[i])
+	while(*arr != '\0')
 	{
-		i++;
+		arr_len++;
+		arr++;
 	}
-	return (i);
+	return (arr_len);
 }
-			
-		
 
 int main(void)
 {
