@@ -9,7 +9,7 @@ int main(void)
 
 	while (1)
 	{
-		print_string("(myshell) >>> "); /*prints prompt */
+		print_string("(Shectar) $ "); /*prints prompt */
 		line_read = getline(&usercmd, &bufsize, stdin);
 		if (line_read == -1)
 		{
@@ -17,15 +17,15 @@ int main(void)
 			free(usercmd);
 			return (-1);
 		}
+		/* handling basic commands */
 
 		token = strtok(usercmd, " \n");
-		if (token != NULL && strcmp(token, "exit") == 0)
+		if (token != NULL && strcmp(token, "exit") == 0) /* handles exit */
 		{
 			print_string("Goodbye...");
-			free(usercmd);
 			break;
 		}
-		else if (token != NULL && strcmp(token, "cd") == 0) /* handles exit */
+		else if (token != NULL && strcmp(token, "cd") == 0) /* handles 'cd' */
 		{
 			token = strtok(NULL, " \n");
 			if (token == NULL)
@@ -41,11 +41,11 @@ int main(void)
 				}
 			}
 		}
-		else
+
 		{
 			while (token != NULL)
 			{
-				print_string(token);
+				print_string("command not found");
 				print_string("\n");
 				token = strtok(NULL, " \n");
 			}
@@ -56,4 +56,3 @@ int main(void)
 	}
 	return (0);
 }
-
