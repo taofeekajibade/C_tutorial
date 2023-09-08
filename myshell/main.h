@@ -9,7 +9,7 @@
 
 /* PROTOTYPES */
 
-void custom_print(const char *str);
+void my_print(const char *str);
 void prompt(void);
 
 
