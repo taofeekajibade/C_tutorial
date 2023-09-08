@@ -9,7 +9,7 @@ int main(void)
 
 	while (1)
 	{
-		print_string("(Shectar) $ "); /*prints prompt */
+		print_string("(Simple_Shell) $ "); /*prints prompt */
 		line_read = getline(&usercmd, &bufsize, stdin);
 		if (line_read == -1)
 		{
@@ -30,8 +30,7 @@ int main(void)
 			token = strtok(NULL, " \n");
 			if (token == NULL)
 			{
-				print_string("Usage: cd <directory>");
-				print_string("\n");
+				print_string("Usage: cd <directory>\n");
 			}
 			else
 			{
@@ -45,8 +44,7 @@ int main(void)
 		{
 			while (token != NULL)
 			{
-				print_string("command not found");
-				print_string("\n");
+				print_string("command not found\n");
 				token = strtok(NULL, " \n");
 			}
 		}
