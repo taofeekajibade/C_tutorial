@@ -59,36 +59,35 @@ int main(int argc, char *argv[])
 				print_f("\n");
 			}
 			continue;
-		}
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		if (pid == 0)
-		{
-			execve(usercmd, cmd_args, NULL);  
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
+			if (pid == -1)
 			{
-				exit_status = WEXITSTATUS(status);
-				print_f(exit_status == 0? "Success" : "Error");
-				print_f("\n");
+				perror("fork");
+				exit(EXIT_FAILURE);
+			}
+			if (pid == 0)
+			{
+				execve(usercmd, cmd_args, NULL);  
+				perror("execve");
+				exit(EXIT_FAILURE);
 			}
 			else
 			{
-				print_f("Child process did not exit normally \n");
+				waitpid(pid, &status, 0);
+				if (WIFEXITED(status))
+				{
+					exit_status = WEXITSTATUS(status);
+					print_f("Child process exited with status: ");
+					print_f(exit_status == 0? "Success" : "Error");
+					print_f("\n");
+				}
+				else
+				{
+					print_f("Child process did not exit normally \n");
+				}
 			}
 		}
+		free(user_input);
+		user_input = NULL;
 	}
-	free(user_input);
-	user_input = NULL;
-}
-return (0);
+	return (0);
 }
