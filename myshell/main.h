@@ -11,6 +11,6 @@
 /* PROTOTYPES */
 
 void print_f(const char *str);
-
+int str_cmp(const char *str1, const char *str2);
 
 #endif
