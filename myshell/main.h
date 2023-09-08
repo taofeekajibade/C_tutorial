@@ -6,11 +6,11 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 
 /* PROTOTYPES */
 
-void my_print(const char *str);
-void prompt(void);
+void print_f(const char *str);
 
 
 #endif
