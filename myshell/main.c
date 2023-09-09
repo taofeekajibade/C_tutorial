@@ -35,12 +35,9 @@ int main(int argc, char *argv[])
 				{
 					perror("chdir");
 				}
-				else
+				else if (chdir(getenv("HOME")) != 0)
 				{
-					(chdir(getenv("HOME")) != 0)
-					{
-						error("chdir");
-					}
+					perror("chdir");
 				}
 			}
 			else if (str_cmp(usercmd, "exit") == 0)
@@ -67,7 +64,7 @@ int main(int argc, char *argv[])
 			else if (pid == 0)
 			{
 				execve(usercmd, cmd_args, NULL);
-				error("execve");
+				perror("execve");
 				exit(EXIT_FAILURE);
 			}
 			else
