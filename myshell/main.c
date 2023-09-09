@@ -2,58 +2,65 @@
 
 int main(int argc, char *argv[])
 {
-	char *user_input = NULL;
+	char *usercmd = NULL;
 	size_t bufsize = 0;
 	char *token = NULL;
-	char *usercmd = NULL;
-	char *arguments = NULL;
+	char *args = NULL;
+	size_t *atoken_count = 0;
 	char *delim = " ";
 	pid_t pid;
-	int status, exit_status;
-	char *cmd_args[3];
+	int i, status, exit_status;
 
 	while (1)
 	{
 		print_f("(weshell) $ ");
-		if (getline(&user_input, &bufsize, stdin) == -1)
+		if (getline(&usercmd, &bufsize, stdin) == -1)
 		{
 			perror("getline");
 			break;
 		}
-		token = strtok(user_input, delim);
-		if (token != NULL)
+		token = strtok(usercmd, delim);
+		while (token != NULL)
 		{
-			usercmd = token;
+			args[i] = strdup(token);
 			token = strtok(NULL, delim);
-			arguments = token;
+			i++;
 		}
+
 		if (usercmd != NULL)
 		{
-			if (str_cmp(usercmd, "cd") == 0)
-			{
-				if (arguments != NULL)
+			if (strcmp(usercmd, "cd") == 0)
+			{	
+				if (args[1] != NULL)
 				{
-					chdir(arguments);
+					if (chdir(args[i]) != 0)
+					{
+						perror("chdir");
+					}
 				}
 				else
 				{
-					(chdir(getenv("HOME")));
-					print_f("Successfully moved dir home");
+					if (chdir(getenv("HOME")) != 0)
+					{
+						perror("chdir");
+					}
 				}
+				continue;
 			}
-			else if (str_cmp(usercmd, "exit") == 0)
+			else if (strcmp(usercmd, "exit") == 0)
 			{
-				free(user_input);
-				user_input = NULL;
+				free(usercmd);
+				usercmd = NULL;
 				break;
 			}
-			else if (str_cmp(usercmd, "echo") == 0)
+			else if (strcmp(usercmd, "echo") == 0)
 			{
-				if (arguments != NULL)
+				if (args != NULL)
 				{
-					print_f(arguments);
+					print_f(args);
 					print_f("\n");
 				}
+				continue;
 			}
 			pid = fork();
 			if (pid == -1)
@@ -63,14 +70,15 @@ int main(int argc, char *argv[])
 			}
 			else if (pid == 0)
 			{
-				*cmd_args = [usercmd, arguments, NULL];
-				execve(usercmd, cmd_args, NULL);
-				perror("execve");
-				exit(EXIT_FAILURE);
+				if (execve(args[0], args, NULL) == -1)
+				{
+					perror("execve");
+					exit(EXIT_FAILURE);
+				}
 			}
 			else
 			{
-				waitpid(pid, &status, 0);
+				wait(&status);
 				if (WIFEXITED(status))
 				{
 					exit_status = WEXITSTATUS(status);
@@ -84,8 +92,8 @@ int main(int argc, char *argv[])
 				}
 			}
 		}
-		free(user_input);
-		user_input = NULL;
+		free(usercmd);
+		usercmd = NULL;
 	}
 	return (0);
 }
