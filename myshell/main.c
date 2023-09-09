@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 			{
 				if (arguments != NULL)
 				{
-					perror("chidr");
+					perror("chdir");
 				}
 			}
 			else
