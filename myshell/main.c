@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 	char *delim = " ";
 	pid_t pid;
 	int status, exit_status;
-	char *cmd_args[] = {usercmd, arguments, NULL};
+	char *cmd_args[3];
 
 	while (1)
 	{
@@ -33,11 +33,12 @@ int main(int argc, char *argv[])
 			{
 				if (arguments != NULL)
 				{
-					perror("chdir");
+					chdir(arguments);
 				}
-				else if (chdir(getenv("HOME")) != 0)
+				else
 				{
-					perror("chdir");
+					(chdir(getenv("HOME")));
+					print_f("Successfully moved dir home");
 				}
 			}
 			else if (str_cmp(usercmd, "exit") == 0)
@@ -54,7 +55,6 @@ int main(int argc, char *argv[])
 					print_f("\n");
 				}
 			}
-			continue;
 			pid = fork();
 			if (pid == -1)
 			{
@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
 			}
 			else if (pid == 0)
 			{
+				*cmd_args = [usercmd, arguments, NULL];
 				execve(usercmd, cmd_args, NULL);
 				perror("execve");
 				exit(EXIT_FAILURE);
