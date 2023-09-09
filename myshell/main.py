@@ -6,6 +6,7 @@ int main(int argc, char *argv[])
 	size_t bufsize = 0;
 	char *token = NULL;
 	char **args = NULL;
+	size_t *atoken_count = 0;
 	char *delim = " ";
 	pid_t pid;
 	int i, status, exit_status;
@@ -16,7 +17,6 @@ int main(int argc, char *argv[])
 		if (getline(&usercmd, &bufsize, stdin) == -1)
 		{
 			perror("getline");
-			free(usercmd);
 			break;
 		}
 		token = strtok(usercmd, delim);
@@ -26,29 +26,38 @@ int main(int argc, char *argv[])
 			token = strtok(NULL, delim);
 			i++;
 		}
-		if (token != NULL)
+
+		if (usercmd != NULL)
 		{
-			if (str_cmp(args[0], "cd") == 0)
-			{
-				if (chdir(args[1] != 0))
+			if (strcmp(usercmd, "cd") == 0)
+			{	
+				if (arguments != NULL)
 				{
-					perror("chdir");
+					if (chdir(arguments) != 0)
+					{
+						perror("chdir");
+					}
 				}
 				else
 				{
-					(chdir(getenv("HOME")));
+					if (chdir(getenv("HOME")) != 0)
+					{
+						perror("chdir");
+					}
 				}
+				continue;
 			}
-			else if (str_cmp(args[0], "exit") == 0)
+			else if (strcmp(usercmd, "exit") == 0)
 			{
-				free(usercmd);
+				free(user_input);
+				user_input = NULL;
 				break;
 			}
-			else if (str_cmp(args[0], "echo") == 0)
+			else if (strcmp(usercmd, "echo") == 0)
 			{
-				if (args[i]!= NULL)
+				if (arguments != NULL)
 				{
-					print_f(args[i]);
+					print_f(arguments);
 					print_f("\n");
 				}
 				continue;
