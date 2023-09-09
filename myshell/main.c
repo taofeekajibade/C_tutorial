@@ -2,56 +2,52 @@
 
 int main(int argc, char *argv[])
 {
-	char *user_input = NULL;
+	char *usercmd = NULL;
 	size_t bufsize = 0;
 	char *token = NULL;
-	char *usercmd = NULL;
-	char *arguments = NULL;
+	char **args = NULL;
 	char *delim = " ";
 	pid_t pid;
-	int status, exit_status;
+	int i, status, exit_status;
 	char *cmd_args[3];
 
 	while (1)
 	{
 		print_f("(weshell) $ ");
-		if (getline(&user_input, &bufsize, stdin) == -1)
+		if (getline(&usercmd, &bufsize, stdin) == -1)
 		{
 			perror("getline");
+			free(usercmd);
 			break;
 		}
-		token = strtok(user_input, delim);
+		token = strtok(usercmd, delim);
+		while (token != NULL)
+		{
+			args[i] = strdup(token);
+			token = strtok(NULL, delim);
+			i++;
+		}
 		if (token != NULL)
 		{
-			usercmd = token;
-			token = strtok(NULL, delim);
-			arguments = token;
-		}
-		if (usercmd != NULL)
-		{
-			if (str_cmp(usercmd, "cd") == 0)
+			if (str_cmp(args[0], "cd") == 0 && args[1] != NULL)
 			{
-				if (arguments != NULL)
-				{
-					chdir(arguments);
-				}
-				else
-				{
-					(chdir(getenv("HOME")));
-					print_f("Successfully moved dir home");
-				}
+				chdir(args[1]);
 			}
-			else if (str_cmp(usercmd, "exit") == 0)
+			else
 			{
-				free(user_input);
-				user_input = NULL;
+				(chdir(getenv("HOME")));
+			}
+			if (str_cmp(args[0], "exit") == 0)
+			{
+				free(usercmd);
+				usercmd = NULL;
 				break;
 			}
-			else if (str_cmp(usercmd, "echo") == 0)
+			else if (str_cmp(args[0], "echo") == 0)
 			{
-				if (arguments != NULL)
+				if (args[i]!= NULL)
 				{
-					print_f(arguments);
+					print_f(args[i]);
 					print_f("\n");
 				}
 			}
@@ -63,14 +59,13 @@ int main(int argc, char *argv[])
 			}
 			else if (pid == 0)
 			{
-				*cmd_args = [usercmd, arguments, NULL];
-				execve(usercmd, cmd_args, NULL);
+				execve(usercmd, args, NULL);
 				perror("execve");
 				exit(EXIT_FAILURE);
 			}
 			else
 			{
-				waitpid(pid, &status, 0);
+				wait(&status);
 				if (WIFEXITED(status))
 				{
 					exit_status = WEXITSTATUS(status);
@@ -84,8 +79,8 @@ int main(int argc, char *argv[])
 				}
 			}
 		}
-		free(user_input);
-		user_input = NULL;
+		free(usercmd);
+		usercmd = NULL;
 	}
 	return (0);
 }
