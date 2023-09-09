@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 	char **args = NULL;
 	char *delim = " ";
 	pid_t pid;
-	int i, status, exit_status;
+	int i = 0, j = 0, status, exit_status;
 
 	while (1)
 	{
@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 			free(usercmd);
 			break;
 		}
+		args = (char**)malloc(sizeof(char*));
 		token = strtok(usercmd, delim);
 		while (token != NULL)
 		{
@@ -26,63 +27,67 @@ int main(int argc, char *argv[])
 			token = strtok(NULL, delim);
 			i++;
 		}
-		if (token != NULL)
+
+		while (args[i] != NULL)
 		{
-			if (str_cmp(args[0], "cd") == 0)
+			if (str_cmp(args[0], "cd") == 0 && args[1] != NULL)
 			{
-				if (chdir(args[1] != 0))
-				{
-					perror("chdir");
-				}
-				else
-				{
-					(chdir(getenv("HOME")));
-				}
+				(chdir(args[1]));
 			}
-			else if (str_cmp(args[0], "exit") == 0)
+			else
+			{
+				chdir(getenv("HOME"));
+
+			}
+			if (str_cmp(args[0], "exit") == 0)
 			{
 				free(usercmd);
 				break;
-			}
+			}	
 			else if (str_cmp(args[0], "echo") == 0)
 			{
-				if (args[i]!= NULL)
+				if (args[i] != NULL)
 				{
 					print_f(args[i]);
 					print_f("\n");
 				}
 				continue;
 			}
-			pid = fork();
-			if (pid == -1)
+		}
+		pid = fork();
+		if (pid == -1)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0)
+		{
+			if (execve(args[1], args, NULL) == -1)
 			{
-				perror("fork");
+				perror("execve");
 				exit(EXIT_FAILURE);
 			}
-			else if (pid == 0)
+		}
+		else
+		{
+			wait(&status);
+			if (WIFEXITED(status))
 			{
-				if (execve(args[0], args, NULL) == -1)
-				{
-					perror("execve");
-					exit(EXIT_FAILURE);
-				}
+				exit_status = WEXITSTATUS(status);
+				print_f("Child process exited with status: ");
+				print_f(exit_status == 0? "Success" : "Error");
+				print_f("\n");
 			}
 			else
 			{
-				wait(&status);
-				if (WIFEXITED(status))
-				{
-					exit_status = WEXITSTATUS(status);
-					print_f("Child process exited with status: ");
-					print_f(exit_status == 0? "Success" : "Error");
-					print_f("\n");
-				}
-				else
-				{
-					print_f("Child process did not exit normally \n");
-				}
+				print_f("Child process did not exit normally \n");
 			}
 		}
+		for (j = 0; j <= i; j++)
+		{
+			free(args[j]);
+		}
+		free(args);
 		free(usercmd);
 		usercmd = NULL;
 	}
