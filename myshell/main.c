@@ -35,56 +35,55 @@ int main(int argc, char *argv[])
 				{
 					perror("chdir");
 				}
-			}
-			else
-			{
-				if (chdir(getenv("HOME")) != 0)
+				else
 				{
-					perror("chdir");
+					(chdir(getenv("HOME")) != 0)
+					{
+						error("chdir");
+					}
+				}
+			}
+			else if (str_cmp(usercmd, "exit") == 0)
+			{
+				free(user_input);
+				user_input = NULL;
+				break;
+			}
+			else if (str_cmp(usercmd, "echo") == 0)
+			{
+				if (arguments != NULL)
+				{
+					print_f(arguments);
+					print_f("\n");
 				}
 			}
 			continue;
-		}
-		else if (str_cmp(usercmd, "exit") == 0)
-		{
-			free(user_input);
-			user_input = NULL;
-			break;
-		}
-		else if (str_cmp(usercmd, "echo") == 0)
-		{
-			if (arguments != NULL)
+			pid = fork();
+			if (pid == -1)
 			{
-				print_f(arguments);
-				print_f("\n");
+				perror("fork");
+				exit(EXIT_FAILURE);
 			}
-		}
-		continue;
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		else if (pid == 0)
-		{
-			execve(usercmd, cmd_args, NULL);  
-			perror("execve");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
+			else if (pid == 0)
 			{
-				exit_status = WEXITSTATUS(status);
-				print_f("Child process exited with status: ");
-				print_f(exit_status == 0? "Success" : "Error");
-				print_f("\n");
+				execve(usercmd, cmd_args, NULL);
+				error("execve");
+				exit(EXIT_FAILURE);
 			}
 			else
 			{
-				print_f("Child process did not exit normally \n");
+				waitpid(pid, &status, 0);
+				if (WIFEXITED(status))
+				{
+					exit_status = WEXITSTATUS(status);
+					print_f("Child process exited with status: ");
+					print_f(exit_status == 0? "Success" : "Error");
+					print_f("\n");
+				}
+				else
+				{
+					print_f("Child process did not exit normally \n");
+				}
 			}
 		}
 		free(user_input);
