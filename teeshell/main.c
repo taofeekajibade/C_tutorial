@@ -4,15 +4,17 @@ int main(void)
 {
 	char *usercmd = NULL;
 	char *token;
+	char **args = NULL;
 	size_t bufsize = 0;
-	ssize_t line_read = 0;
-	delim = " \n";
+	ssize_t char_read = 0;
+	char *delim = " \n";
+	int i;
 
 	while (1)
 	{
 		print_string("(Simple_Shell) $ "); /*prints prompt */
-		line_read = getline(&usercmd, &bufsize, stdin);
-		if (line_read == -1)
+		char_read = getline(&usercmd, &bufsize, stdin);
+		if (char_read == -1)
 		{
 			perror("getline");
 			free(usercmd);
@@ -21,35 +23,35 @@ int main(void)
 		/* handling basic commands */
 
 		token = strtok(usercmd, delim);
-		if (token != NULL && strcmp(token, "exit") == 0) /* handles exit */
+		while (token)
+		{
+			args[i] = strdup(token);
+			token = strtok(NULL, delim);
+			i++;
+		}
+		if (args != NULL && strcmp(args[0], "exit") == 0) /* handles exit */
 		{
 			print_string("Goodbye...\n");
 			break;
 		}
-		else if (token != NULL && strcmp(token, "cd") == 0) /* handles 'cd' */
+		else if (args != NULL && strcmp(args[0], "cd") == 0) /* handles 'cd' */
 		{
-			token = strtok(NULL, " \n");
-			if (token == NULL)
-			{
-				print_string("Usage: cd <directory>\n");
-			}
-			else
-			{
-				if(chdir(token) != 0)
-				{
-					perror("cd");
-				}
-			}
+			print_string("Usage: cd <directory>\n");
 		}
-
+		else
 		{
-			while (token != NULL)
+			if(chdir(*args) != 0)
+			{
+				perror("cd");
+			}
+			while (args != NULL)
 			{
 				print_string("command not found\n");
-				token = strtok(NULL, " \n");
+				token = strtok(NULL, delim);
 			}
 		}
 		free(usercmd);
+		free(args);
 		usercmd = NULL;
 		bufsize = 0;
 	}
