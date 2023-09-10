@@ -6,6 +6,7 @@ int main(void)
 	char *token;
 	size_t bufsize = 0;
 	ssize_t line_read = 0;
+	delim = " \n";
 
 	while (1)
 	{
@@ -13,16 +14,16 @@ int main(void)
 		line_read = getline(&usercmd, &bufsize, stdin);
 		if (line_read == -1)
 		{
-			perror("Error reading input...");
+			perror("getline");
 			free(usercmd);
 			return (-1);
 		}
 		/* handling basic commands */
 
-		token = strtok(usercmd, " \n");
+		token = strtok(usercmd, delim);
 		if (token != NULL && strcmp(token, "exit") == 0) /* handles exit */
 		{
-			print_string("Goodbye...");
+			print_string("Goodbye...\n");
 			break;
 		}
 		else if (token != NULL && strcmp(token, "cd") == 0) /* handles 'cd' */
