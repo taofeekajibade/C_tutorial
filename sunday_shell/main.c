@@ -16,9 +16,8 @@ int main(int ac, char **argv)
     {
         printf("(new_shell)>>> ");
 
-        /* create a variable to count the number of characters entered by the user */
         char_read = getline(&usercmd, &bufsize, stdin);
-        if (char_read == -1) /* if user enters no character /ctrl+D/ */
+        if (char_read == -1)
         {
             printf("Goodbye...\n");
             return (-1);
@@ -27,7 +26,7 @@ int main(int ac, char **argv)
         usercmd_cpy = malloc(sizeof(char)* char_read);
         if (usercmd_cpy == NULL)
         {
-            /*perror("malloc"); */
+            perror("malloc");
             return (-1);
         }
         /* copy user input into the new variable */
@@ -35,14 +34,14 @@ int main(int ac, char **argv)
 
         /* tokenize user input and save it in a variable token */
         token = strtok(usercmd, delim);
-        while (token) 
+        while (token != NULL)
         {
             token_sum++; 
             token = strtok(NULL, delim);
         }
         token_sum++; /* total number of token */
 
-        /* argv = malloc(sizeof(char *) * token_sum); */
+        argv = malloc(sizeof(char *) * token_sum);
         token = strtok(usercmd_cpy, delim); /* tokenize a copy of user input */
         while (token != NULL)
         {
@@ -53,13 +52,12 @@ int main(int ac, char **argv)
         argv[i] = NULL; /* set the last sting to null terminator */
 
 
-        printf("%s\n", usercmd);
+        /* printf("%s\n", usercmd); */
 
-        free(usercmd);
-        free(usercmd_cpy);
-        free(argv);
- 
+        execute_file(argv);
     }
+    free(usercmd);
+    free(usercmd_cpy);
 
     return (0);
 }

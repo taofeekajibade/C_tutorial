@@ -1,5 +1,17 @@
 #include "main.h"
 
+/* print string */
+void print_f(const char *str)
+{
+	int i;
+
+    for (i = 0; str[i] != '\0'; i++)
+	{
+        write(STDOUT_FILENO, &str[i], 1);
+    }
+}
+
+/* string lenght*/
 size_t str_len(const char *str)
 {
     size_t len = 0;
@@ -11,6 +23,7 @@ size_t str_len(const char *str)
     return (len);
 }
 
+/* string duplicate */
 char str_dup(const char *str)
 {
     size_t len = 0, i;
@@ -20,7 +33,6 @@ char str_dup(const char *str)
     {
         return (NULL);
     }
-
     
     while (str[len] != '\0')
     {
@@ -37,4 +49,15 @@ char str_dup(const char *str)
         duplicate[i] = str[i];
     }
     return (duplicate);
+}
+
+/* string compare */
+int str_cmp(const char *str1, const char *str2)
+{
+	while (*str1 && *str2 && *str1 == *str2)
+	{
+		str1++;
+		str1++;
+	}
+	return (*str1 - *str1);
 }
