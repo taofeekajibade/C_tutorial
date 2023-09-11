@@ -11,6 +11,7 @@ int main(int argc, char *args[])
 	char *delim = " \n";
 	pid_t pid;
 	int i = 0, j = 0, token_sum = 0, status, exit_status;
+	char *path;
 
 	while (1)
 	{
@@ -51,7 +52,7 @@ int main(int argc, char *args[])
 		}
 		args[i] = NULL;
 
-		if (str_cmp(args[0], "exit") == 0)
+		if (strcmp(args[0], "exit") == 0)
 		{
 			print_f("Goodbye\n ");
 			free(usercmd_cpy);
@@ -59,11 +60,11 @@ int main(int argc, char *args[])
 			free(args);
 			break;
 		}
-		if (str_cmp(args[0], "cd") == 0)
+		if (strcmp(args[0], "cd") == 0)
 		{
 			if (args[1] != NULL)
 			{
-				if (chdir(*path) == -1)
+				if (chdir(path) == -1)
 				{
 					perror("Usage: cd <directory>");
 					return (-1);
@@ -75,7 +76,7 @@ int main(int argc, char *args[])
 				chdir(getenv("HOME"));
 			}
 		}
-		if (str_cmp(args[0], "echo") == 0)
+		if (strcmp(args[0], "echo") == 0)
 		{
 			for(j=1; args[j] != NULL; j++)
 			{
