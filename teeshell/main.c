@@ -2,6 +2,7 @@
 
 int main(void)
 {
+	char *prompt = "(Simple_Shell) $ ";
 	char *usercmd = NULL;
 	char *token;
 	char **args = NULL;
@@ -12,6 +13,7 @@ int main(void)
 
 	while (1)
 	{
+		write(STDOUT_FILENO, &prompt, strlen(prompt));
 		print_string("(Simple_Shell) $ "); /*prints prompt */
 		char_read = getline(&usercmd, &bufsize, stdin);
 		if (char_read == -1)
