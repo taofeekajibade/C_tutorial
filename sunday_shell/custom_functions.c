@@ -31,7 +31,7 @@ char str_dup(const char *str)
 
     if (str == NULL)
     {
-        return (NULL);
+        return (-1);
     }
     
     while (str[len] != '\0')
@@ -48,7 +48,7 @@ char str_dup(const char *str)
     {
         duplicate[i] = str[i];
     }
-    return (duplicate);
+    return (*duplicate);
 }
 
 /* string compare */

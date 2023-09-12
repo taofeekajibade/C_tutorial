@@ -14,6 +14,7 @@ int main(int argc, char *args[])
 
 	while (1)
 	{
+		
 		print_f("(weshell) $ ");
 		char_read = getline(&usercmd, &bufsize, stdin);
 		if (char_read == -1)

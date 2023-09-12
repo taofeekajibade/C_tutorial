@@ -1,7 +1,8 @@
 #include "main.h"
-/* gcc -Wall -Wextra -Werror -pedantic *.c -o hsh */
+/* gcc -Wall -Wextra -Werror -pedantic -std=gnu89 *.c -o hsh */
 int main(int ac, char **argv)
 {
+    char *prompt = "(new_shell)>>> ";
     char *usercmd = NULL;
     size_t bufsize = 0;
     ssize_t char_read = 0;
@@ -14,8 +15,8 @@ int main(int ac, char **argv)
 
     while (1)
     {
-        printf("(new_shell)>>> ");
-
+        write(STDOUT_FILENO, prompt, str_len(prompt));
+       
         char_read = getline(&usercmd, &bufsize, stdin);
         if (char_read == -1)
         {
