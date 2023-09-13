@@ -7,7 +7,6 @@ int main(int argc, char *args[])
 	size_t bufsize = 0;
 	ssize_t char_read;
 	char *token = NULL;
-	/* char **args = NULL; */
 	char *delim = " \n";
 	pid_t pid;
 	int i = 0, j = 0, token_sum = 0, status, exit_status;
@@ -23,17 +22,14 @@ int main(int argc, char *args[])
 			free(usercmd);
 			break;
 		}
-	  /* create a variable to hold user inputs and allocate memory to it */
         usercmd_cpy = malloc(sizeof(char)* char_read);
         if (usercmd_cpy == NULL)
         {
             perror("malloc");
             return (-1);
         }
-        /* copy user input into the new variable */
         strcpy(usercmd_cpy, usercmd);
 
-		/* args = malloc(sizeof(char*)); */
 		token = strtok(usercmd, delim);
 		while (token != NULL)
 		{
@@ -92,45 +88,3 @@ int main(int argc, char *args[])
 	}
 	return (0);
 }
-/*
-			pid = fork();
-			if (pid == -1)
-			{
-				perror("fork");
-				exit(EXIT_FAILURE);
-			}
-
-			else if (pid == 0)
-			{
-				if (execve(args[0], args, NULL) == -1)
-				{
-					perror("execve");
-					exit(EXIT_FAILURE);
-				}
-			}
-			else
-			{
-				wait(&status);
-				if (WIFEXITED(status))
-				{
-					exit_status = WEXITSTATUS(status);
-					print_f("Child process exited with status: ");
-					print_f(exit_status == 0? "Success" : "Error");
-					print_f("\n");
-				}
-				else
-				{
-					print_f("Child process did not exit normally \n");
-				}
-			}
-			for (j = 0; j < i; j++)
-			{
-				free(args[j]);
-			}
-		}
-		free(args);
-		free(usercmd);
-		usercmd = NULL;
-	}
-	return (0);
-} */

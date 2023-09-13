@@ -53,8 +53,6 @@ int main(int ac, char **argv)
         argv[i] = NULL; /* set the last sting to null terminator */
 
 
-        /* printf("%s\n", usercmd); */
-
         execute_file(argv);
     }
     free(usercmd);
