@@ -6,6 +6,8 @@ void loop_shell(void)
     char **argv;
     int status;
 
+    signal(SIGINT, handle_sigint);
+
     do 
     {
         display_prompt();
