@@ -20,10 +20,3 @@ void loop_shell(void)
     }
     while (status);
 }
-
-int main(int ac, char **argv)
-{
-    loop_shell();
-
-    exit(EXIT_SUCCESS);
-}

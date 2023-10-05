@@ -3,7 +3,7 @@
  * print_env - prints environment variables
  * @env: argument environment path
  */
-int print_env(char **env)
+void print_env(char **env)
 {
 	while (*env)
 	{
