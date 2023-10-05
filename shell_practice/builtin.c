@@ -1,13 +1,18 @@
 #include "main.h"
 
 /* exit function */
-int handle_exit(char **argv)
+void handle_exit(char **argv)
 {
 	int status;
 
 	if (argv[1] != NULL)
 	{
 		status = atoi(argv[1]);
+		if (status < 0 || status > 255)
+		{
+			perror("Invalid exit status value");
+			return (EXIT_FAILURE);
+		}
 		if (status == 0 && strcmp(argv[1], "0") != 0)
 		{
 			perror("Invalid exit status");
@@ -23,9 +28,10 @@ int handle_exit(char **argv)
 
 /**
  * handle_cd - changes directory
- * @path: working directory path
+ * @aargv: working directory path
+ * Return: 0 on success
  */
-int handle_cd(char **argv)
+void handle_cd(char **argv)
 {
 	char *current_dir = getcwd(NULL, 0);
 	char *home_dir;

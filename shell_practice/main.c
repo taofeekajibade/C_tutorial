@@ -6,11 +6,11 @@
  * Return: Always 0
  */
 
-int main(void)
+int main(int ac __attribute__((unused)), char **argv)
 {
 	if (isatty(STDIN_FILENO))
 	{
-		loop_shell();
+		loop_shell(argv);
 	}
 	exit(EXIT_SUCCESS);
 }
