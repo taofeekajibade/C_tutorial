@@ -1,5 +1,4 @@
 #include "main.h"
-
 /**
  * builtin_code - Array of builtin commands
  * Return: string
@@ -8,7 +7,9 @@ char *builtin_code[] =
 {
 	"cd",
 	"exit",
-	"env"
+	"env",
+	"setenv",
+	"unsetenv"
 };
 
 /**
@@ -18,7 +19,9 @@ int (*builtin_func[])(char **) =
 {
 	&handle_cd,
 	&handle_exit,
-	&print_env
+	&print_env,
+	&handle_setenv,
+	&handle_unsetenv
 };
 
 /**
@@ -81,7 +84,7 @@ int execute_cmd(char **argv)
 	{
 		if (strcmp(argv[0], builtin_code[i]) == 0)
 		{
-			return (*builtin_func[i])(argv);
+			return ((*builtin_func[i])(argv));
 		}
 	}
 	return (fork_process(argv));

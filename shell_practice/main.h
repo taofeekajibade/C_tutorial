@@ -15,8 +15,8 @@
 /* PROTOTYPES */
 
 int main(int ac __attribute__((unused)), char **argv);
-void handle_cd(char **argv);
-void handle_exit(char **argv);
+int handle_cd(char **argv);
+int handle_exit(char **argv);
 void display_prompt(void);
 int builtin_select(void);
 int execute_cmd(char **argv);
@@ -25,6 +25,10 @@ char *read_line(void);
 char **split_token(char *userinput);
 int fork_process(char **argv);
 void handle_sigint(int sig __attribute__((unused)));
-void print_env(char **env);
+int print_env(char **env);
+int handle_setenv(char **argv);
+int handle_unsetenv(char **argv);
+
+
 
 #endif

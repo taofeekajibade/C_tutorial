@@ -1,7 +1,7 @@
 #include "main.h"
 
 /* exit function */
-void handle_exit(char **argv)
+int handle_exit(char **argv)
 {
 	int status;
 
@@ -31,7 +31,7 @@ void handle_exit(char **argv)
  * @aargv: working directory path
  * Return: 0 on success
  */
-void handle_cd(char **argv)
+int handle_cd(char **argv)
 {
 	char *current_dir = getcwd(NULL, 0);
 	char *home_dir;
@@ -51,13 +51,13 @@ void handle_cd(char **argv)
 	if (current_dir == NULL)
 	{
 		perror("hsh");
-		return (1);
+		return (-1);
 	}
 	if (chdir(argv[1]) == -1)
 	{
 		perror("hsh");
 		free(current_dir);
-		return (1);
+		return (-1);
 	}
 	if (setenv("PWD", getcwd(NULL, 0), 1) == -1)
 	{
@@ -69,5 +69,5 @@ void handle_cd(char **argv)
 	}
 
 	free(current_dir);
-	return (1);
+	return (-1);
 }
