@@ -11,4 +11,5 @@ int print_env(char **env)
 		write(STDOUT_FILENO, "\n", 1);
 		env++;
 	}
+	return (0);
 }

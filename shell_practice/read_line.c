@@ -3,7 +3,7 @@
 char *read_line(void)
 {
     char *userinput = NULL;
-    ssize_t bufsize = 0;
+    size_t bufsize = 0;
 
     if (getline(&userinput, &bufsize, stdin) == -1)
     {
