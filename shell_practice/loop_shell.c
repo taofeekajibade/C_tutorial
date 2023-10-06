@@ -1,27 +1,23 @@
 #include "main.h"
-
-void loop_shell(void)
+/**
+ * loop_shell - loops through the functions
+ */
+void loop_shell(char **argv)
 {
-    char *userinput;
-    char **argv;
-    int status;
+	char *userinput;
+	int status;
 
-    do 
-    {
-        display_prompt();
-        userinput = read_line();
-        argv = split_token(userinput);
-        status = execute_cmd(argv);
+	signal(SIGINT, handle_sigint);
 
-        free(userinput);
-        free(argv);
-    }
-    while (status);
-}
+	do 
+	{
+		display_prompt();
+		userinput = read_line();
+		argv = split_token(userinput);
+		status = execute_cmd(argv);
 
-int main(int ac, char **argv)
-{
-    loop_shell();
-
-    exit(EXIT_SUCCESS);
+		free(userinput);
+		free(argv);
+	}
+	while (status);
 }

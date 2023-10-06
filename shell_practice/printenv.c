@@ -2,14 +2,22 @@
 /**
  * print_env - prints environment variables
  * @env: argument environment path
+ * Return: 0 on success
  */
+
 int print_env(char **env)
 {
-	while (*env)
+	int i;
+
+	if (env == NULL)
 	{
-		write(STDOUT_FILENO, *env, strlen(*env));
+		return (-1);
+	}
+
+	for (i = 0; env[i] != NULL; i++)
+	{
+		write(STDOUT_FILENO, env[i], strlen(env[i]));
 		write(STDOUT_FILENO, "\n", 1);
-		env++;
 	}
 	return (0);
 }
