@@ -6,7 +6,7 @@
 {
 	char *input = NULL;
 
-	signal(SIGINT, handle_signal);
+	
 
 	while (1)
 	{
@@ -25,6 +25,8 @@
 int main(int ac, char **args, char **env)
 {
 	char *input;
+
+	signal(SIGINT, handle_signal);
 
 	while (1)
 	{

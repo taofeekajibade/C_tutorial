@@ -36,7 +36,7 @@ void tokenizeInput(char* input, int* ac, char*** args) {
 	(*args)[(*ac)] = NULL;
 }
 
-/l* Function to execute a command*/
+/* Function to execute a command*/
 void executeCommand(int ac, char** args, char** env) {
 	/* Create a child process*/
 	pid_t pid = fork();
@@ -65,7 +65,7 @@ void executeCommand(int ac, char** args, char** env) {
 		}
 	}
 }
-à
+
 int main(int ac, char **args, char **env) {
 	while (1) {
 		displayPrompt();
