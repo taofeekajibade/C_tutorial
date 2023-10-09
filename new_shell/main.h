@@ -6,34 +6,29 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
-#include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <ctype.h>
 
 
 #define MAX_INPUT 255
-#define DELIM " "
+#define DELIM " \t"
+#define BUFFER_SIZE 64
 
-/* function pointer type for command functions*/
-typedef void (*builtinFunc)(char **args);
+#define MANY_ARGUMENTS "Too many arguments\n"
+#define NUMERIC_REQUIRED "Numeric value required\n"
+#define INVALID_EXIT "Invalid exit status value\n"
+#define OUT_OF_RANGE "Exit status out of range (0-255)\n"
 
 /* custom functions */
 void _freedptr(char **args);
-void _fexit(char **args);
+void handle_exit(char **args);
 void handle_cd(char **args);
 char **_tokenize(char ***args, char *input);
 char *read_line(void);
 void handle_signal(int sig);
 int fork_process(char **args);
 void execute_cmd(char **args);
-void loopFunctions(char **args);
-
-
-
-
-
-
-
-
+char **split_token(char *user_input);
 
 #endif

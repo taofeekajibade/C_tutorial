@@ -1,33 +1,34 @@
 #include "main.h"
-/**
- * loop_Functions - loops through the functions
+/** final_loop - last iteration through the functions
  * @args: command-line arguments
  */
-void loopFunctions(char **args)
+void final_loop(char **args)
 {
-	char *token = NULL;
+	char *input = NULL;
 
 	signal(SIGINT, handle_signal);
 
 	while (1)
 	{
 		write(STDOUT_FILENO, "$ ", 2);
-		token = read_line();
-		args = _tokenize(&args, token);
+		input = read_line();
+		args = _tokenize(&args, input);
 		execute_cmd(args);
 
-		free(token);
 		free(args);
 	}
 }
-
 /**
  * main - Entry point for simple_shell program.
  * Return: 0 on success, 1 on failure.
  */
-int main(int ac __attribute__((unused)), char **args)
+int main(int ac, char **args)
 {
-	loopFunctions(args);
+	(void)ac;
+
+	final_loop(args);
+
+	_freedptr(args);
 
 	return (0);
 }

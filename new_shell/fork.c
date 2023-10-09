@@ -9,6 +9,8 @@ int fork_process(char **args)
 	pid_t pid;
 	int status;
 
+	/* fork a process and check its pid value */
+
 	pid = fork();
 
 	if (pid == 0)
@@ -16,8 +18,8 @@ int fork_process(char **args)
 		if (execve(args[0], args, NULL) == -1)
 		{
 			perror("hsh");
+			exit(EXIT_FAILURE);
 		}
-		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 	{
@@ -25,6 +27,7 @@ int fork_process(char **args)
 	}
 	else
 	{
+		/* Parent process */
 		do 
 		{
 			waitpid(pid, &status, WUNTRACED);
