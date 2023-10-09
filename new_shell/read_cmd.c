@@ -2,7 +2,7 @@
 /**
  * read_line - read user input
  */
-char *read_line(void)
+char *read_input(void)
 {
 	char *user_input = NULL;
 	size_t bufsize = 0;

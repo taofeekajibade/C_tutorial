@@ -25,10 +25,10 @@ void _freedptr(char **args);
 void handle_exit(char **args);
 void handle_cd(char **args);
 char **_tokenize(char ***args, char *input);
-char *read_line(void);
+char *read_input(void);
 void handle_signal(int sig);
-int fork_process(char **args);
-void execute_cmd(char **args);
+int fork_process(char **args, char **env);
+void execute_cmd(char **args, char **env);
 char **split_token(char *user_input);
 
 #endif

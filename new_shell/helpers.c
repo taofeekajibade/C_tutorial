@@ -1,8 +1,6 @@
 #include "main.h"
-
 /**
  * _tokenize - A function to tokenize a string.
- *
  * @args: Double pointer to an array of strings.
  * @token: String tokens.
  * @token_size: Allocated size per token.
@@ -21,7 +19,6 @@ char **_tokenize(char ***args, char *input)
         perror("hsh: allocation error");
         exit(EXIT_FAILURE);
     }
-
     while (token)
     {
         tokens[i] = malloc(sizeof(char) * (strlen(token) + 1));
@@ -45,10 +42,9 @@ char **_tokenize(char ***args, char *input)
         }
         token = strtok(NULL, DELIM);
     }
-
     tokens[i] = NULL;
     /* Update the pointer passed as an argument */
     *args = tokens;
 
-    return tokens;
+    return (tokens);
 }

@@ -57,7 +57,7 @@ typedef struct {
 	void (*func)(char **args);
 }builtin_map;
 
-void execute_cmd(char **args)
+void execute_cmd(char **args, char **env)
 {
 	int i;
 
@@ -79,5 +79,5 @@ void execute_cmd(char **args)
 			return;
 		}
 	}
-	fork_process(args);
+	fork_process(args, env);
 }
