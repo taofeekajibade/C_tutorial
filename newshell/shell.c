@@ -3,7 +3,7 @@
  * init_shell - prompt function
  *
  */
-void init_shell()
+void init_shell(void)
 {
 	int interactive = 1;
 
