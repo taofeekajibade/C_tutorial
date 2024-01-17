@@ -1,6 +1,7 @@
+/*
 #include <stdio.h>
 
-/*
+
 int main(void)
 {
     float result = 2553.71 / 4.2;
@@ -39,7 +40,7 @@ int main(void)
 
 #include <stdio.h>
 
-int main()
+int main(void)
 {
     int height = 9;
     int width = 6;
