@@ -27,8 +27,8 @@ int main(void)
     {
         if (phonebook[i].name == "Taofeek Ajibade")
         {
-            printf("Name found in phonebook\n");
-            printf("Name is %s, phone number is %s and age is %d\n",
+            printf("Name found in phonebook with the following details:\n");
+            printf("Name: %s, Phone number: %s, Age: %d\n",
             phonebook[i].name, phonebook[i].num, phonebook[i].age );
             return (0);
         }
